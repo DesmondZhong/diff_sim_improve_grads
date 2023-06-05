@@ -50,7 +50,9 @@ The goal of our optimal control tasks is to solve for the control sequence that 
 
 Here the optimized trajectory of the __single-collision__ task.
 
-<img src="./assets/single_after_optimization.png" alt="drawing" width="350"/>
+<p align="center">
+ <img src="./assets/single_after_optimization.png" alt="drawing" width="350"/>
+</p>
 
 Here are he trajectories before and after optimization of the __multiple-collision__ task. Notice that the number of collisions are different after optimization. 
 
@@ -58,9 +60,16 @@ Here are he trajectories before and after optimization of the __multiple-collisi
 | :---------:|:------:|
 | <img src="./assets/multiple_before_optimization.png" alt="drawing" width="450"/> | <img src="./assets/multiple_after_optimization.png" alt="drawing" width="450"/> |
 
+## Method
+
+We find that, due to time discretization, the post-collision velocities of objects are not changing smoothly over the optimization iterations, which results in wrong gradient calculation. This is indicated by the difference between red and green arrows (penetration directions) in figure (a) abd (b) below. We propose to use collision direction, indicated by the brown arrow in (c) below, to compute the post-collision velocity. We show that after applying our technique, the optimization is able to converge to the analytical optimal solution for the two tasks considered. Check out our [blog post](https://desmondzhong.com/blog/2023-improving-gradient-computation/) for a more detailed and intuitive explanation. 
+
+| (a)  |   (b)  | (c)  | 
+| :---------:|:------:|:------:|
+| <img src="./assets/cartoon_1.png" alt="drawing" width="260"/> | <img src="./assets/cartoon_2.png" alt="drawing" width="260"/> | <img src="./assets/cartoon_3.png" alt="drawing" width="330"/> |
 
 ## Citation
-If you find this work helpful, please consider citing our paper using the following Bibtex.
+If you find this work helpful, please consider starring this repo and citing our paper using the following Bibtex.
 ```bibtex
 @article{zhong2023improving,
   title={Improving Gradient Computation for Differentiable Physics Simulation with Contacts},
