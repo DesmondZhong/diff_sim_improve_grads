@@ -62,9 +62,9 @@ Here are he trajectories before and after optimization of the __multiple-collisi
 
 ## Method
 
-We find that, due to time discretization, the post-collision velocities of objects are not changing smoothly over the optimization iterations, which results in wrong gradient calculation. This is indicated by the difference between red and green arrows (penetration directions) in figure (a) abd (b) below. We propose to use collision direction, indicated by the brown arrow in (c) below, to compute the post-collision velocity. We show that after applying our technique, the optimization is able to converge to the analytical optimal solution for the two tasks considered. Check out our [blog post](https://desmondzhong.com/blog/2023-improving-gradient-computation/) for a more detailed and intuitive explanation. 
+We find that, due to time discretization, the post-collision velocities of objects are not changing smoothly over the optimization iterations, which results in wrong gradient calculation. This is indicated by the difference between red and green arrows (penetration directions) in figure (a) abd (b) below. We propose to use continuous collision detection (CCD) and leverage collision direction, indicated by the brown arrow in (c) below, to compute the post-collision velocity. We show that after applying our technique, the optimization is able to converge to the analytical optimal solution for the two tasks considered. Check out our [blog post](https://desmondzhong.com/blog/2023-improving-gradient-computation/) for a more detailed and intuitive explanation. 
 
-| (a)  |   (b)  | (c)  | 
+| (a) iteration $i$  |   (b) iteration $i+1$  | (c) collision direction $\bar{n}$ | 
 | :---------:|:------:|:------:|
 | <img src="./assets/cartoon_1.png" alt="drawing" width="260"/> | <img src="./assets/cartoon_2.png" alt="drawing" width="260"/> | <img src="./assets/cartoon_3.png" alt="drawing" width="330"/> |
 
