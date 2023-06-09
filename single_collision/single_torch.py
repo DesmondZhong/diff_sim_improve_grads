@@ -147,6 +147,19 @@ if __name__ == "__main__":
         for _ in range(cfg.steps)
     ], dtype=torch.float32, requires_grad=True)
 
+    # get gradient first
+    loss, (state_traj, terminal_loss, running_loss) = compute_diff_sim_loss(
+        cfg, init_state, ctrls
+    )
+    loss.backward()
+    print(f"------------Gradients-----------")
+    print(f"loss: {loss.item()}")
+    print(f"gradient of loss w.r.t. initial position dl/dx0: {init_state.grad[0]}")
+    print(f"gradient of loss w.r.t. initial velocity dl/dv0: {init_state.grad[1]}")
+    print(f"gradient of loss w.r.t. initial ctrl dl/du0: {ctrls.grad[0, 0]}")
+    init_state.grad = None
+    ctrls.grad = None
+
     state_hist, ctrls_hist, loss_hist = [], [], []
     ctrls_hist.append(np.copy(ctrls.detach().cpu().numpy()[:, 0]))
     for i in range(cfg.train_iters):

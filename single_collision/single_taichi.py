@@ -208,6 +208,19 @@ if __name__ == '__main__':
         gui = ti.GUI("Single collision", (1024, 1024), background_color=0x3C733F)
     os.makedirs(os.path.join(cfg.this_dir, cfg.taichi_dir), exist_ok=True)
 
+    initialize_ctrls()
+    # initial condition
+    x[0, 0][0] = cfg.init_pos_0[0] ; x[0, 0][1] = cfg.init_pos_0[1]
+    x[0, 1][0] = cfg.init_pos_1[0] ; x[0, 1][1] = cfg.init_pos_1[1]
+    with ti.ad.Tape(loss):
+        forward(cfg)
+    print(f"------------Gradients-----------")
+    print(f"loss: {loss[None]}")
+    print(f"gradient of loss w.r.t. initial position dl/dx0: {x.grad[0, 0]} {x.grad[0, 1]}")
+    print(f"gradient of loss w.r.t. initial velocity dl/dv0: {v.grad[0, 0]} {v.grad[0, 1]}")
+    print(f"gradient of loss w.r.t. initial ctrl dl/du0: {ctrls.grad[0, 0]}")
+    clear()
+
     # optimize
     return_dict = optimize()
 
