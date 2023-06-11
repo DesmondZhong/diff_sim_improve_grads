@@ -77,20 +77,20 @@ def collide(cfg, dt, state, ctrl):
 
 def compute_diff_sim_loss(cfg, init_state, ctrls):
     state = init_state
-    state_hist = [init_state]
+    states_hist = [init_state]
     running_loss = 0
     for i in range(ctrls.shape[0]):
         imp, x_inc = collide(cfg, cfg.dt,state, ctrls[i])
 
         next_state = advance(cfg.dt, state, ctrls[i], imp, x_inc)
         state = next_state
-        state_hist.append(state)
+        states_hist.append(state)
 
     x = state[0]
     terminal_loss = x[1][0] ** 2 + x[1][1] ** 2
     running_loss = (ctrls[:, 0] ** 2).sum() * cfg.dt * 0.01
     loss = terminal_loss + running_loss
-    return loss, (state_hist, terminal_loss, running_loss)
+    return loss, (states_hist, terminal_loss, running_loss)
 
 
 if __name__ == "__main__":
@@ -126,7 +126,7 @@ if __name__ == "__main__":
         for _ in range(cfg.steps)
     ], dtype=torch.float32, requires_grad=True)
 
-    state_hist, ctrls_hist, loss_hist = [], [], []
+    states_hist, ctrls_hist, loss_hist = [], [], []
     ctrls_hist.append(np.copy(ctrls.detach().cpu().numpy()[:, 0]))
     for i in range(cfg.train_iters):
         loss, (state_traj, terminal_loss, running_loss) = compute_diff_sim_loss(
@@ -139,16 +139,16 @@ if __name__ == "__main__":
         ctrls.grad = None
         if cfg.verbose:
             print(f"Iter: {i}, loss: {loss.item()}")
-        state_hist.append(torch.stack(state_traj))
+        states_hist.append(torch.stack(state_traj))
         ctrls_hist.append(np.copy(ctrls.detach().cpu().numpy()[:, 0]))
         loss_hist.append(loss.item())
 
-    state_hist = torch.stack(state_hist).detach().cpu().numpy()
+    states_hist = torch.stack(states_hist).detach().cpu().numpy()
 
     save_dir = os.path.join(cfg.this_dir, cfg.result_dir)
     os.makedirs(save_dir, exist_ok=True)
     np.savez(os.path.join(save_dir, cfg.name),
         ctrls_hist=np.stack(ctrls_hist),
-        state_hist=np.stack(state_hist),
+        states_hist=np.stack(states_hist),
         loss_hist=np.array(loss_hist)
     )
