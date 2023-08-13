@@ -6,9 +6,9 @@
 
 Yaofeng Desmond Zhong, Jiequn Han, Biswadip Dey, Georgia Olympia Brikis | 2023
 
-[![Conference](http://img.shields.io/badge/L4DC-2023-4b44ce.svg)](https://arxiv.org/abs/2305.00092)
+[![Conference](http://img.shields.io/badge/L4DC-2023-4b44ce.svg)](https://proceedings.mlr.press/v211/zhong23a.html)
 [![Paper](http://img.shields.io/badge/arXiv-2305.00092-B31B1B.svg)](https://arxiv.org/abs/2305.00092)
-[![Blog Post](http://img.shields.io/badge/Blog-000000.svg)](https://arxiv.org/abs/2305.00092)
+[![Blog Post](http://img.shields.io/badge/Blog-000000.svg)](https://desmondzhong.com/blog/2023-improving-gradient-computation/)
 
 
 </div>
